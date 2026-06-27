@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 import random
 import string
 
@@ -30,6 +30,19 @@ def home():
         "index.html",
         short_url=short_url
     )
+
+
+@app.route("/<short_code>")
+def redirect_url(short_code):
+
+    if short_code in url_mapping:
+
+        return redirect(
+            url_mapping[short_code]
+        )
+
+    return "URL not found!"
+
 
 if __name__ == "__main__":
     app.run(debug=True)
