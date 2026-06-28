@@ -93,22 +93,31 @@
         </form>
 {% if short_url %}
 
-<div class="alert alert-success mt-4">
+<div class="card mt-4 p-4 text-center">
 
-    <h4>
-        Short URL Generated
-    </h4>
+    <h3>
+        🔗 Short URL Generated
+    </h3>
 
-    <h5>
-        {{ short_url }}
-    </h5>
+    <div class="alert alert-success mt-3">
+
+        <h5 id="shortUrl">
+            {{ short_url }}
+        </h5>
+
+    </div>
+
+    <button
+        class="btn btn-success"
+        onclick="copyURL()">
+
+        📋 Copy URL
+
+    </button>
 
 </div>
 
 {% endif %}
-    </div>
-
-</div>
 
 <footer class="text-center mt-5 mb-3 text-muted">
 
@@ -120,5 +129,24 @@
 
 </footer>
 
+<script>
+
+function copyURL(){
+
+    let url =
+        document.getElementById(
+            "shortUrl"
+        ).innerText;
+
+    navigator.clipboard
+        .writeText(url);
+
+    alert(
+        "URL Copied Successfully!"
+    );
+
+}
+
+</script>
 </body>
 </html>
