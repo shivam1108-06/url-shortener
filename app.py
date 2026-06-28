@@ -5,6 +5,7 @@ import string
 app = Flask(__name__)
 
 history = []
+clicks = {}
 
 url_mapping = {}
 
@@ -26,12 +27,15 @@ def home():
 
         url_mapping[short_code] = original_url
 
+        clicks[short_code] = 0
+
         short_url = f"http://127.0.0.1:5000/{short_code}"
 
         history.append({
             "original": original_url,
-            "short": short_url
-        })
+            "short": short_url,
+             "clicks": clicks[short_code]
+     })
 
     return render_template(
         "index.html",
@@ -44,6 +48,8 @@ def home():
 def redirect_url(short_code):
 
     if short_code in url_mapping:
+
+        clicks[short_code] += 1
 
         return redirect(
             url_mapping[short_code]

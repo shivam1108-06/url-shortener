@@ -64,9 +64,19 @@
 
     </div>
 
+    <div class="text-center mb-4">
+
+        <h5>
+            📅 Current Date & Time
+        </h5>
+
+        <p id="datetime"></p>
+
+    </div>
+
     <div class="card p-4">
 
-        <form method="POST">
+        <form method="POST" onsubmit="showLoader()">
 
             <div class="mb-3">
 
@@ -75,80 +85,107 @@
                 </label>
 
                 <input
-                type="url"
-                name="url"
-                class="form-control"
-                placeholder="https://example.com"
-                required>
+                    type="url"
+                    name="url"
+                    class="form-control"
+                    placeholder="https://example.com"
+                    required>
 
             </div>
 
             <button
+                type="submit"
                 class="btn btn-primary w-100">
 
                 Shorten URL
 
             </button>
 
+            <div
+                id="loader"
+                class="text-center mt-3"
+                style="display:none;">
+
+                <div class="spinner-border text-primary">
+                </div>
+
+                <p class="mt-2">
+                    Generating URL...
+                </p>
+
+            </div>
+
         </form>
-{% if short_url %}
-
-<div class="card mt-4 p-4 text-center">
-
-    <h3>
-        🔗 Short URL Generated
-    </h3>
-
-    <div class="alert alert-success mt-3">
-
-        <h5 id="shortUrl">
-            {{ short_url }}
-        </h5>
 
     </div>
 
-    <button
-        class="btn btn-success"
-        onclick="copyURL()">
+    {% if short_url %}
 
-        📋 Copy URL
+    <div class="card mt-4 p-4 text-center">
 
-    </button>
+        <h3>
+            🔗 Short URL Generated
+        </h3>
+
+        <div class="alert alert-success mt-3">
+
+            <h5 id="shortUrl">
+                {{ short_url }}
+            </h5>
+
+        </div>
+
+        <button
+            class="btn btn-success"
+            onclick="copyURL()">
+
+            📋 Copy URL
+
+        </button>
+
+    </div>
+
+    {% endif %}
+
+    {% if history %}
+
+    <div class="card mt-4 p-4">
+
+        <h3 class="mb-3">
+            🕒 Recent URLs
+        </h3>
+
+        <ul class="list-group">
+
+            {% for item in history %}
+
+            <li class="list-group-item">
+
+                <b>Original:</b>
+                {{ item.original }}
+
+                <br>
+
+                <b>Short:</b>
+                {{ item.short }}
+
+                <br>
+
+                <b>Clicks:</b>
+                {{ item.clicks }}
+
+            </li>
+
+            {% endfor %}
+
+        </ul>
+
+    </div>
+
+    {% endif %}
 
 </div>
 
-{% endif %}
-{% if history %}
-
-<div class="card mt-4 p-4">
-
-    <h3 class="mb-3">
-        🕒 Recent URLs
-    </h3>
-
-    <ul class="list-group">
-
-        {% for item in history %}
-
-        <li class="list-group-item">
-
-            <b>Original:</b>
-            {{ item.original }}
-
-            <br>
-
-            <b>Short:</b>
-            {{ item.short }}
-
-        </li>
-
-        {% endfor %}
-
-    </ul>
-
-</div>
-
-{% endif %}
 <footer class="text-center mt-5 mb-3 text-muted">
 
     <hr>
@@ -164,11 +201,14 @@
 function copyURL(){
 
     let url =
-        document.getElementById(
-            "shortUrl"
-        ).innerText;
+        document
+            .getElementById(
+                "shortUrl"
+            )
+            .innerText;
 
-    navigator.clipboard
+    navigator
+        .clipboard
         .writeText(url);
 
     alert(
@@ -177,6 +217,38 @@ function copyURL(){
 
 }
 
+function showLoader(){
+
+    document
+        .getElementById(
+            "loader"
+        )
+        .style.display =
+            "block";
+
+}
+
+function updateDateTime(){
+
+    const now = new Date();
+
+    document
+        .getElementById(
+            "datetime"
+        )
+        .innerHTML =
+            now.toLocaleString();
+
+}
+
+updateDateTime();
+
+setInterval(
+    updateDateTime,
+    1000
+);
+
 </script>
+
 </body>
 </html>
