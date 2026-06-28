@@ -118,7 +118,37 @@
 </div>
 
 {% endif %}
+{% if history %}
 
+<div class="card mt-4 p-4">
+
+    <h3 class="mb-3">
+        🕒 Recent URLs
+    </h3>
+
+    <ul class="list-group">
+
+        {% for item in history %}
+
+        <li class="list-group-item">
+
+            <b>Original:</b>
+            {{ item.original }}
+
+            <br>
+
+            <b>Short:</b>
+            {{ item.short }}
+
+        </li>
+
+        {% endfor %}
+
+    </ul>
+
+</div>
+
+{% endif %}
 <footer class="text-center mt-5 mb-3 text-muted">
 
     <hr>

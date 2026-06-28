@@ -4,6 +4,8 @@ import string
 
 app = Flask(__name__)
 
+history = []
+
 url_mapping = {}
 
 @app.route("/", methods=["GET", "POST"])
@@ -26,9 +28,15 @@ def home():
 
         short_url = f"http://127.0.0.1:5000/{short_code}"
 
+        history.append({
+            "original": original_url,
+            "short": short_url
+        })
+
     return render_template(
         "index.html",
-        short_url=short_url
+        short_url=short_url,
+        history=history
     )
 
 
